@@ -8,9 +8,9 @@ using HDF5
 using Random 
 using NLopt
 
-include("generators.jl")
-include("obtain_probability.jl")
-include("entanglement_entropy.jl")
+include("../generators.jl")
+include("../obtain_probability.jl")
+include("../entanglement_entropy.jl")
 
 let 
     # # Load the wavefunction from the file
@@ -42,7 +42,7 @@ let
     #************************************************************************************
 
     # Define the parameters to set up the disentangler 
-    subsystem_size = 5           # System size to compute the correlation matrix 
+    subsystem_size = 20          # System size to compute the correlation matrix 
     number_of_generators = 15    # This number is fixed by the number of SU(4) generators
 
     # The parameters to be optimized
@@ -50,6 +50,7 @@ let
     # alpha = ones(subsystem_size - 1, number_of_generators)    
     
     # Random initialization of the parameters
+    index=1
     random_seed=0
     Random.seed!(random_seed)
     upper_bound = 5.0
@@ -99,10 +100,10 @@ let
     tmp_probability = project_probability(ψ_copy, 1, "Sz")
     cost_function = tmp_probability[1, 2]
     @show tmp_probability[1, 1], tmp_probability[1, 2], tmp_probability[1, 1] + tmp_probability[1, 2] == 1
-    @show SvN[1, :]
-    @show SvN[2, :]
+    # @show SvN[1, :]
+    # @show SvN[2, :]
 
-    h5open("disentangler_N100_random$(random_seed).h5", "w") do file
+    h5open("../Data/disentangler_N100_random$(index).h5", "w") do file
         write(file, "psi", ψ_copy)
         write(file, "SvN", SvN)
         write(file, "Sz", Sz)

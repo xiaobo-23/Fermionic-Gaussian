@@ -6,7 +6,7 @@ using ITensors
 using ITensors: orthocenter, sites, copy, complex, real 
 
 # Sample a two-site MPS to Sz for the moment
-function sample(m :: MPS, j :: Int, observable_type :: AbstractString)
+function project_probability(m :: MPS, j :: Int, observable_type :: AbstractString)
     mpsLength = length(m)
     probablility = zeros(Float64, (2, 2))
 
